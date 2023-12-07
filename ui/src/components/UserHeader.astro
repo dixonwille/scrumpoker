@@ -1,0 +1,29 @@
+---
+import Button from "./forms/Button.astro";
+import UserIcon from "./icons/UserIcon.astro";
+interface Props {
+  user: string;
+}
+
+const { user } = Astro.props;
+---
+
+<Button color="none" id="user-menu-button">
+  <div class="userHeader">
+    <UserIcon user={user} size={24} />
+    <span>{user}</span>
+  </div>
+</Button>
+
+<style is:global>
+  .userHeader {
+    display: flex;
+    place-items: center;
+    gap: 0.5rem;
+    & img {
+      background-color: var(--gray-300);
+      border-radius: 100%;
+      padding: 0.25em;
+    }
+  }
+</style>

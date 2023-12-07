@@ -1,0 +1,289 @@
+---
+import Layout from "../components/Layout.astro";
+import TextBox from "../components/forms/TextBox.astro";
+import Button from "../components/forms/Button.astro";
+import Toggle from "../components/forms/Toggle.astro";
+---
+
+<Layout title="Scrum Poker">
+  <h1>Let's Play</h1>
+  <p>Either create a game or join an existing one.</p>
+  <div class="gridForms">
+    <form id="game-options">
+      <div class="header">
+        <h2>Create a Game</h2>
+      </div>
+      <div class="fields">
+        <TextBox id="session-name" placeholder="My Session" autocomplete="off">
+          Session name:
+        </TextBox>
+        <TextBox id="user-name" placeholder="My Name" autocomplete="name">
+          Username:
+        </TextBox>
+        <fieldset id="card-options" class="radioAccordian">
+          <legend>Card Options:</legend>
+          <label>
+            <input
+              type="radio"
+              name="card-options"
+              id="card-options-fibonacci"
+              value="fibonacci"
+            />
+            <span class="label">Fibonacci</span>
+            <span class="description">
+              <p>Explore the beauty of this natural phenomena!</p>
+              <p>1, 2, 3, 5, 8, 13, 21</p>
+            </span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="card-options"
+              id="card-options-t-shirt-size"
+              value="t-shirt-size"
+            />
+            <span class="label">T-Shirt Size</span>
+            <span class="description">
+              <p>Why are you trying to dress the features?</p>
+              <p>XS, S, M, L, XL, XXL</p>
+            </span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="card-options"
+              id="card-options-powers-of-two"
+              value="powers-of-two"
+            />
+            <span class="label">Powers of Two</span>
+            <span class="description">
+              <p>Let the computer geeks cry with joy!</p>
+              <p>1, 2, 4, 8, 16, 32, 64</p>
+            </span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="card-options"
+              id="card-options-sequential"
+              value="sequential"
+            />
+            <span class="label">Sequential</span>
+            <span class="description">
+              <p>Just keep it plain and simple.</p>
+              <p>1, 2, 3, 4, 5, 6, 7</p>
+            </span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="card-options"
+              id="card-options-other"
+              value="other"
+            />
+            <span class="label">Other</span>
+            <span class="description">
+              <p>Preconfigured options were not good enough for ya?</p>
+              <p>
+                <TextBox
+                  id="other-card-options"
+                  placeholder="1,2,3,4"
+                  tabindex="-1"
+                />
+              </p>
+            </span>
+          </label>
+        </fieldset>
+        <Toggle id="include-coffee" title="Include a coffee option">
+          Include "☕"
+        </Toggle>
+        <Toggle id="include-cake" title="Include a cake option">
+          Include "🍰"
+        </Toggle>
+        <Toggle
+          id="include-question-mark"
+          title="Include a question mark option"
+        >
+          Include "?"
+        </Toggle>
+      </div>
+      <div class="actions">
+        <Button type="submit" id="submit-game-options" color="accent">
+          Start Playing
+        </Button>
+      </div>
+    </form>
+    <form id="join-game-options">
+      <div class="header">
+        <h2>Join a Game</h2>
+      </div>
+      <div class="fields">
+        <TextBox id="session-id" placeholder="asdf" autocomplete="off">
+          Session Id:
+        </TextBox>
+        <TextBox
+          id="joining-user-name"
+          placeholder="My Name"
+          autocomplete="name"
+        >
+          Username:
+        </TextBox>
+      </div>
+      <div class="actions">
+        <Button type="submit" id="submit-join-game-options" color="accent">
+          Join Game
+        </Button>
+      </div>
+    </form>
+  </div>
+</Layout>
+
+<script>
+  const goForm = document.getElementById("game-options") as HTMLFormElement;
+  const jgoForm = document.getElementById(
+    "join-game-options",
+  ) as HTMLFormElement;
+  const cardOptions = document.getElementById("card-options");
+
+  goForm.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const data = new FormData(ev.target as HTMLFormElement);
+    console.log(Object.fromEntries(data));
+    window.location.pathname = "/play";
+  });
+
+  jgoForm.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const data = new FormData(ev.target as HTMLFormElement);
+    console.log(Object.fromEntries(data));
+    window.location.pathname = "/play";
+  });
+  // remove text box from tab index
+  cardOptions?.addEventListener("change", (ev) => {
+    const otherOpt = document.getElementById(
+      "other-card-options",
+    ) as HTMLInputElement;
+    otherOpt.tabIndex =
+      (ev.target as HTMLFormElement).value === "other" ? 0 : -1;
+  });
+</script>
+
+<style is:global>
+  .gridForms {
+    display: grid;
+    gap: 2rem;
+
+    @media screen and (min-width: 900px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    & > form {
+      align-self: start;
+      background-color: var(--surface);
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      overflow: hidden;
+      box-shadow: 0.1rem 0.1rem 0.5rem rgba(0, 0, 0, 25%);
+
+      & > * {
+        padding: 0 1rem;
+        &:last-child {
+          padding-bottom: 0.5rem;
+        }
+      }
+
+      & .header {
+        padding-block: 0.5rem;
+        background-color: var(--secondary-400);
+        color: var(--secondary-fg-400);
+      }
+
+      & .fields {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      & h2 {
+        margin: 0;
+      }
+
+      & .toggle {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .radioAccordian {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem;
+
+    & legend {
+      padding: 0;
+      margin: 0;
+    }
+
+    & > label {
+      padding: 0.5rem;
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1/3;
+
+      & .description {
+        grid-column: 2/3;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s linear;
+
+        & p {
+          padding: 0.3em 0;
+          margin: 0;
+          &:has(.textBox) {
+            padding: 0.3em 0.15em;
+          }
+        }
+      }
+
+      & input[type="radio"] {
+        --selected-background: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3C/svg%3E");
+        color: inherit;
+        font: inherit;
+        appearance: none;
+        padding: 0;
+        margin: 0;
+        align-self: center;
+        border-radius: 0.5rem;
+        &:focus {
+          outline: var(--outline);
+        }
+
+        &::before {
+          content: " ";
+          background-color: var(--gray-400);
+          width: 1rem;
+          height: 1rem;
+          border-radius: 0.5rem;
+          display: block;
+          align-self: middle;
+        }
+
+        &:checked {
+          & ~ .description {
+            max-height: 10em;
+          }
+          &::before {
+            background-image: var(--selected-background);
+            background-color: var(--primary-300);
+          }
+        }
+      }
+    }
+  }
+</style>

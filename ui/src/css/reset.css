@@ -1,0 +1,52 @@
+@import url("fonts.css");
+/* https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors */
+:root {
+  color-scheme: dark light;
+  --primary-200: #91cfff;
+  --primary-fg-200: #000;
+  --primary-300: #64bcff;
+  --primary-fg-300: #fff;
+  --primary-400: #3fadff;
+  --primary-fg-400: #fff;
+  --secondary-400: #646eff;
+  --secondary-fg-400: #fff;
+  --accent-800: #ffa764;
+  --accent-fg-800: #fff;
+  --accent-700: #ffb567;
+  --accent-fg-700: #fff;
+
+  --background: #fff;
+  --foreground: #000;
+  --surface: #e0e0e0;
+
+  --gray-300: #e0e0e0;
+  --gray-400: #bdbdbd;
+  --gray-500: #9e9e9e;
+
+  --success-300: #81c784;
+  --success-700: #388e3c;
+
+  --outline: 2px solid var(--foreground);
+}
+
+html {
+  height: 100%;
+  font-family: "RobotoSerif", serif;
+  &[data-theme="dark"] {
+    --background: #212121;
+    --foreground: #fff;
+    --surface: #424242;
+  }
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+  font-family: "RobotoCondensed", sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  margin: 0;
+  min-height: 100%;
+  min-width: 250px;
+}

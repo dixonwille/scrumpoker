@@ -1,0 +1,88 @@
+---
+import "../css/reset.css";
+import DarkModeToggle from "./forms/DarkModeToggle.astro";
+import UserHeader from "./UserHeader.astro";
+import ButtonAnchor from "./forms/ButtonAnchor.astro";
+interface Props {
+  title: string;
+  user?: string;
+}
+
+const { title, user } = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<html lang="en">
+  <head>
+    <meta name="color-scheme" content="dark light" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>
+      function detectColorScheme() {
+        const savedState = localStorage.getItem("theme");
+        if (savedState) {
+          if (savedState === "dark")
+            document.documentElement.dataset.theme = "dark";
+        } else if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      }
+      detectColorScheme();
+    </script>
+  </head>
+  <body>
+    <header>
+      <ButtonAnchor href="/">Scrum Poker</ButtonAnchor>
+      <div class="alignRight">
+        <DarkModeToggle id="dark-mode-toggle" />
+        {user && <UserHeader user={user} />}
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>&copy;{year} willd.io</footer>
+  </body>
+
+  <style is:global>
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--primary-300);
+      color: var(--primary-fg-300);
+      padding: 1em 2em;
+      display: flex;
+      place-items: center;
+      justify-content: space-between;
+      & .alignRight {
+        display: flex;
+        place-items: center;
+        gap: 1rem;
+      }
+    }
+
+    main {
+      flex: 1;
+      width: min(150ch, 100%);
+      padding: 1em 2em;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    footer {
+      background-color: var(--secondary-400);
+      color: var(--secondary-fg-400);
+      padding: 1em 2em;
+    }
+  </style>
+</html>

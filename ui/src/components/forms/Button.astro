@@ -1,0 +1,57 @@
+---
+interface Props {
+  id: string;
+  color: "primary" | "accent" | "gray" | "none";
+  type?: "button" | "submit";
+}
+
+const { id, type = "button", color = "primary" } = Astro.props;
+---
+
+<button class="btn" type={type} id={id} data-color={color}><slot /></button>
+
+<style is:global>
+  .btn {
+    font: inherit;
+    color: inherit;
+    border: none;
+    border-radius: 0.25em;
+    padding: 0.3em 1.2em;
+    cursor: pointer;
+
+    &:focus {
+      outline: var(--outline);
+    }
+
+    &[data-color="primary"] {
+      background-color: var(--primary-300);
+      color: var(--primary-fg-300);
+      &:hover {
+        background-color: var(--primary-400);
+      }
+    }
+
+    &[data-color="accent"] {
+      background-color: var(--accent-800);
+      color: var(--primary-fg-300);
+      &:hover {
+        background-color: var(--accent-700);
+      }
+    }
+
+    &[data-color="gray"] {
+      background-color: var(--gray-500);
+      color: #fff;
+      &:hover {
+        background-color: var(--gray-400);
+      }
+    }
+
+    &[data-color="none"] {
+      background-color: inherit;
+      &:hover {
+        background-color: #ffffff30;
+      }
+    }
+  }
+</style>

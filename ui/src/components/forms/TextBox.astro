@@ -1,0 +1,44 @@
+---
+interface Props {
+  id: string;
+  [key: string]: string;
+}
+
+const { id, ...rest } = Astro.props;
+---
+
+<label class="textBox">
+  <span class="label"><slot /></span>
+  <input type="text" id={id} name={id} {...rest} />
+</label>
+
+<style is:global>
+  .textBox {
+    & input {
+      border: 1px solid var(--gray-500);
+      border-radius: 0.25em;
+      padding: 0.25em 0.5em;
+      font: inherit;
+      background-color: inherit;
+      color: inherit;
+      width: 100%;
+      box-sizing: border-box;
+
+      [data-theme="dark"] & {
+        border-color: var(--gray-400);
+      }
+
+      &::placeholder {
+        color: var(--gray-500);
+      }
+
+      &:focus {
+        outline: var(--outline);
+      }
+    }
+
+    [data-theme="dark"] & input::placeholder {
+      color: var(--gray-400);
+    }
+  }
+</style>

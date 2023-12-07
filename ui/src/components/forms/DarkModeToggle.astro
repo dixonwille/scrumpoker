@@ -1,0 +1,95 @@
+---
+import SunIcon from "../icons/Sun.astro";
+import MoonIcon from "../icons/Moon.astro";
+---
+
+<fieldset id="dark-mode-toggle" class="radioGroup">
+  <label>
+    <SunIcon />
+    <input
+      type="radio"
+      name="dark-mode-toggle"
+      title="Enable light mode."
+      id="dark-mode-toggle-light"
+      value="light"
+      checked="checked"
+    />
+  </label>
+  <label>
+    <MoonIcon />
+    <input
+      type="radio"
+      name="dark-mode-toggle"
+      title="Enable dark mode."
+      id="dark-mode-toggle-dark"
+      value="dark"
+    />
+  </label>
+</fieldset>
+
+<script>
+  const ele = document.getElementById("dark-mode-toggle") as HTMLInputElement;
+  function updateLocalStorage(ev: Event) {
+    const inputEle = ev.target as HTMLInputElement;
+    localStorage.setItem("theme", inputEle.value);
+    document.documentElement.dataset.theme = inputEle.value;
+  }
+  ele.addEventListener("change", updateLocalStorage);
+  if (document.documentElement.dataset.theme === "dark") {
+    const darkEle = document.getElementById(
+      "dark-mode-toggle-dark",
+    ) as HTMLInputElement;
+    darkEle.checked = true;
+  }
+</script>
+
+<style is:global>
+  .radioGroup {
+    --height: max(1.75rem, 1.25em);
+    --width: max(1.5rem, 1em);
+    --border-radius: calc(var(--height) / 2);
+    border: none;
+    border-radius: var(--border-radius);
+    height: var(--height);
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--gray-300);
+
+    & label {
+      height: var(--height);
+      width: var(--width);
+      margin: 0 0.25em;
+      display: grid;
+      grid-template: "label";
+      place-items: center;
+
+      & > * {
+        grid-area: label;
+      }
+    }
+
+    & svg {
+      color: var(--gray-500);
+    }
+
+    & svg:has(~ input[type="radio"]:checked) {
+      color: var(--accent-800);
+    }
+
+    & input[type="radio"] {
+      appearance: none;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      font: inherit;
+      cursor: pointer;
+      border-radius: 0.25em;
+
+      &:focus {
+        outline: var(--outline);
+      }
+    }
+  }
+</style>

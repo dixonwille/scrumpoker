@@ -1,0 +1,16 @@
+---
+interface Props {
+  user: string;
+  size?: number;
+}
+
+const { user, size = 24 } = Astro.props;
+---
+
+<img
+  src={`https://api.dicebear.com/7.x/bottts/png?seed=${user}&size=${size}`}
+  width="24px"
+  height="24px"
+  alt={`${user} Avatar`}
+  title={`${user} Avatar`}
+/>
